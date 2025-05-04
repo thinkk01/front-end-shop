@@ -11,7 +11,6 @@ import overrides from "./overrides";
 import typography from "./typography";
 import breakpoints from "./breakpoints";
 
-
 const themeOptions = (settings: Settings, overrideMode: PaletteMode): ThemeOptions => {
   // ** Vars
   const { skin, mode, direction, themeColor } = settings;
