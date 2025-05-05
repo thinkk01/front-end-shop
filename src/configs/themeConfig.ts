@@ -1,40 +1,48 @@
 import { Direction } from "@mui/material";
 
-import { Skin, Mode, AppBar, Footer, ContentWidth, VerticalNavToggle, HorizontalMenuToggle } from "@/types/layouts";
+import {
+  Skin,
+  Mode,
+  AppBar,
+  Footer,
+  ContentWidth,
+  VerticalNavToggle,
+  HorizontalMenuToggle,
+} from "@/types/layouts";
 
 type ThemeConfig = {
-  skin: Skin
-  mode: Mode
-  appBar: AppBar
-  footer: Footer
-  navHidden: boolean
-  appBarBlur: boolean
-  direction: Direction
-  templateName: string
-  navCollapsed: boolean
-  routingLoader: boolean
-  disableRipple: boolean
-  navigationSize: number
-  navSubItemIcon: string
-  menuTextTruncate: boolean
-  contentWidth: ContentWidth
-  disableCustomizer: boolean
-  responsiveFontSizes: boolean
-  collapsedNavigationSize: number
-  horizontalMenuAnimation: boolean
-  layout: "vertical" | "horizontal"
-  verticalNavToggleType: VerticalNavToggle
-  horizontalMenuToggle: HorizontalMenuToggle
-  afterVerticalNavMenuContentPosition: "fixed" | "static"
-  beforeVerticalNavMenuContentPosition: "fixed" | "static"
-  toastPosition: "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"
-}
+  skin: Skin;
+  mode: Mode;
+  appBar: AppBar;
+  footer: Footer;
+  navHidden: boolean;
+  appBarBlur: boolean;
+  direction: Direction;
+  templateName: string;
+  navCollapsed: boolean;
+  routingLoader: boolean;
+  disableRipple: boolean;
+  navigationSize: number;
+  navSubItemIcon: string;
+  menuTextTruncate: boolean;
+  contentWidth: ContentWidth;
+  disableCustomizer: boolean;
+  responsiveFontSizes: boolean;
+  collapsedNavigationSize: number;
+  horizontalMenuAnimation: boolean;
+  layout: "vertical" | "horizontal";
+  verticalNavToggleType: VerticalNavToggle;
+  horizontalMenuToggle: HorizontalMenuToggle;
+  afterVerticalNavMenuContentPosition: "fixed" | "static";
+  beforeVerticalNavMenuContentPosition: "fixed" | "static";
+  toastPosition: "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right";
+};
 
 const themeConfig: ThemeConfig = {
   // ** Layout Configs
   templateName: "LapTrinhThatde" /* App Name */,
   layout: "vertical" /* vertical | horizontal */,
-  mode: "dark" as Mode /* light | dark | semi-dark /*! Note: semi-dark value will only work for Vertical Layout */,
+  mode: "light" as Mode /* light | dark | semi-dark /*! Note: semi-dark value will only work for Vertical Layout */,
   direction: "ltr" /* ltr | rtl */,
   skin: "default" /* default | bordered */,
   contentWidth: "boxed" /* full | boxed */,
