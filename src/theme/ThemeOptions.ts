@@ -26,15 +26,15 @@ const themeOptions = (settings: Settings, overrideMode: PaletteMode): ThemeOptio
       palette: palette(mode === "semi-dark" ? overrideMode : mode, skin),
       ...spacing,
       shape: {
-        borderRadius: 6
+        borderRadius: 6,
       },
       mixins: {
         toolbar: {
-          minHeight: 64
-        }
+          minHeight: 64,
+        },
       },
       shadows: shadows(mode === "semi-dark" ? overrideMode : mode),
-      typography
+      typography,
     },
     userThemeConfig
   );
@@ -44,9 +44,9 @@ const themeOptions = (settings: Settings, overrideMode: PaletteMode): ThemeOptio
       primary: {
         ...(mergedThemeConfig.palette
           ? mergedThemeConfig.palette?.[themeColor]
-          : palette(mode === "semi-dark" ? overrideMode : mode, skin).primary)
-      }
-    }
+          : palette(mode === "semi-dark" ? overrideMode : mode, skin).primary),
+      },
+    },
   });
 };
 

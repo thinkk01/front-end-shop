@@ -3,13 +3,14 @@ import { NextPage } from "next";
 import Head from "next/head";
 
 import LoginPage from "@/views/layouts/pages/login";
+import RegisterPage from "@/views/layouts/pages/register";
 
 type TProps = {
 
 }
-const Login: NextPage<TProps> = () => {
+const Register: NextPage<TProps> = () => {
   return (
-    <LoginPage/>
+    <RegisterPage />
   );
 };
-export default Login;
+export default Register;

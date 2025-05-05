@@ -23,14 +23,14 @@ import { useSettings } from "@/hooks/useSettings";
 import ThemeComponent from "@/theme/ThemeComponent";
 
 type ExtendedAppProps = AppProps & {
-  Component: NextPageWithLayout
-}
+  Component: NextPageWithLayout;
+};
 
 type GuardProps = {
-  authGuard: boolean
-  guestGuard: boolean
-  children: ReactNode
-}
+  authGuard: boolean;
+  guestGuard: boolean;
+  children: ReactNode;
+};
 // ** Pace Loader
 if (themeConfig.routingLoader) {
   Router.events.on("routeChangeStart", () => {
@@ -67,7 +67,7 @@ export default function App(props: ExtendedAppProps) {
   const { settings } = useSettings();
 
   // Variables
-  const getLayout = Component.getLayout ?? (page => <>{page}</>);
+  const getLayout = Component.getLayout ?? ((page) => <>{page}</>);
 
   const setConfig = Component.setConfig ?? undefined;
 
@@ -81,15 +81,15 @@ export default function App(props: ExtendedAppProps) {
     success: {
       className: "react-hot-toast",
       style: {
-        background: "#DDF6E8"
-      }
+        background: "#DDF6E8",
+      },
     },
     error: {
       className: "react-hot-toast",
       style: {
-        background: "#FDE4D5"
-      }
-    }
+        background: "#FDE4D5",
+      },
+    },
   };
 
   return (
@@ -100,7 +100,10 @@ export default function App(props: ExtendedAppProps) {
           name="description"
           content={`${themeConfig.templateName} – Material Design React Admin Dashboard Template – is the most developer friendly & highly customizable Admin Dashboard Template based on MUI v5.`}
         />
-        <meta name="keywords" content="Material Design, MUI, Admin Template, React Admin Template" />
+        <meta
+          name="keywords"
+          content="Material Design, MUI, Admin Template, React Admin Template"
+        />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
@@ -111,7 +114,11 @@ export default function App(props: ExtendedAppProps) {
               return (
                 <ThemeComponent settings={settings}>
                   <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                    <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
+                    <AclGuard
+                      aclAbilities={aclAbilities}
+                      guestGuard={guestGuard}
+                      authGuard={authGuard}
+                    >
                       {getLayout(<Component {...pageProps} />)}
                     </AclGuard>
                   </Guard>
