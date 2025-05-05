@@ -28,7 +28,6 @@
     "no-multi-spaces": "error",
     "keyword-spacing": "error",
     "no-unused-vars": 1,
-    "prettier/prettier": "error"
   }
 }
 // {
