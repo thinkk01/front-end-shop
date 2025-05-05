@@ -1,15 +1,9 @@
 import { AbilityBuilder, Ability } from "@casl/ability";
-
-export type Subjects = string
-export type Actions = "manage" | "create" | "read" | "update" | "delete"
-
-export type AppAbility = Ability<[Actions, Subjects]> | undefined
-
+export type Subjects = string;
+export type Actions = "manage" | "create" | "read" | "update" | "delete";
+export type AppAbility = Ability<[Actions, Subjects]> | undefined;
 export const AppAbility = Ability as any;
-export type ACLObj = {
-  action: Actions
-  subject: string
-}
+export type ACLObj = { action: Actions; subject: string; }
 
 /**
  * Please define your own Ability rules according to your app requirements.
