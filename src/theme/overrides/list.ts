@@ -1,8 +1,6 @@
-// ** Type Import
-import { OwnerStateThemeType } from "."
+import { hexToRGBA } from "@/utils/hex-to-rgba";
 
-// ** Util Import
-import { hexToRGBA } from "@/utils/hex-to-rgba"
+import { OwnerStateThemeType } from ".";
 
 const List = () => {
   return {
@@ -67,7 +65,7 @@ const List = () => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default List
+export default List;

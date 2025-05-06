@@ -149,7 +149,7 @@ const RegisterPage: NextPage<TProps> = () => {
             Register
           </Typography>
           <form onSubmit={onSubmit} autoComplete="off">
-              <Box sx={{ mt: 2 ,mb: 4}}>
+              <Box sx={{ mt: 2 ,mb: 4 }}>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Controller
                   name="email"
@@ -170,7 +170,7 @@ const RegisterPage: NextPage<TProps> = () => {
                   )}
                 />
               </Box>
-              <Box sx={{ mt: 2 ,mb: 4}}>
+              <Box sx={{ mt: 2 ,mb: 4 }}>
               <FormLabel htmlFor="password">Password</FormLabel>
               <Controller
                 name="password"
@@ -204,7 +204,7 @@ const RegisterPage: NextPage<TProps> = () => {
                 )}
               />
    </Box>
-   <Box sx={{ mt: 2 ,mb: 4}}>
+   <Box sx={{ mt: 2 ,mb: 4 }}>
               <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
               <Controller
                 name= "confirmPassword"

@@ -1,8 +1,6 @@
-// ** Type Imports
-import { OwnerStateThemeType } from "."
+import { hexToRGBA } from "@/utils/hex-to-rgba";
 
-// ** Util Import
-import { hexToRGBA } from "@/utils/hex-to-rgba"
+import { OwnerStateThemeType } from ".";
 
 const Menu = () => {
   return {
@@ -53,7 +51,7 @@ const Menu = () => {
         disableRipple: true
       }
     }
-  }
-}
+  };
+};
 
-export default Menu
+export default Menu;

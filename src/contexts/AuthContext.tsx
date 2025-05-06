@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 
 import authConfig from "@/configs/auth";
+import { loginAuth } from "@/service/auth";
 
 import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from "./types";
 
@@ -25,7 +26,6 @@ const AuthProvider = ({ children }: Props) => {
   // ** States
   const [user, setUser] = useState<UserDataType | null>(defaultProvider.user);
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading);
-
   // ** Hooks
   const router = useRouter();
 
@@ -64,8 +64,9 @@ const AuthProvider = ({ children }: Props) => {
   }, []);
 
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
-    axios
-      .post(authConfig.loginEndpoint, params)
+    // axios
+      // .post(authConfig.loginEndpoint, params)
+    loginAuth({ email: params.email,password: params.password })
       .then(async response => {
         params.rememberMe
           ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)

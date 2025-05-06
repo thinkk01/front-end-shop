@@ -1,5 +1,5 @@
-// ** Type Imports
 import { Skin } from "@/types/layouts";
+
 import { OwnerStateThemeType } from ".";
 
 const Card = (skin: Skin) => {
@@ -18,7 +18,7 @@ const Card = (skin: Skin) => {
         })
       },
       defaultProps: {
-        elevation: skin === "bordered" ? 0 : 7
+        elevation: skin === "bordered" ? 0 : 7,
       }
     },
     MuiCardHeader: {
@@ -83,7 +83,7 @@ const Card = (skin: Skin) => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default Card
+export default Card;

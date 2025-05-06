@@ -1,8 +1,6 @@
-// ** Type Import
-import { OwnerStateThemeType } from "."
+import { hexToRGBA } from "@/utils/hex-to-rgba";
 
-// ** Util Import
-import { hexToRGBA } from "@/utils/hex-to-rgba"
+import { OwnerStateThemeType } from ".";
 
 const Slider = () => {
   return {
@@ -117,7 +115,7 @@ const Slider = () => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default Slider
+export default Slider;

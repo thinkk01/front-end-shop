@@ -1,4 +1,3 @@
-// ** Type Import
 import { OwnerStateThemeType } from ".";
 
 const Avatar = () => {
@@ -35,7 +34,7 @@ const Avatar = () => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default Avatar
+export default Avatar;

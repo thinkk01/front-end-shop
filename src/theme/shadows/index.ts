@@ -1,5 +1,4 @@
-// ** Type Imports
-import { PaletteMode, ThemeOptions } from "@mui/material"
+import { PaletteMode, ThemeOptions } from "@mui/material";
 
 const Shadows = (mode: PaletteMode): ThemeOptions["shadows"] => {
   if (mode === "light") {
@@ -29,7 +28,7 @@ const Shadows = (mode: PaletteMode): ThemeOptions["shadows"] => {
       "0px 9px 27px 0px rgba(47, 43, 61, 0.32)",
       "0px 10px 28px 0px rgba(47, 43, 61, 0.34)",
       "0px 10px 30px 0px rgba(47, 43, 61, 0.34)"
-    ]
+    ];
   } else {
     return [
       "none",
@@ -57,7 +56,7 @@ const Shadows = (mode: PaletteMode): ThemeOptions["shadows"] => {
       "0px 9px 27px 0px rgba(15, 20, 34, 0.32)",
       "0px 10px 28px 0px rgba(15, 20, 34, 0.34)",
       "0px 10px 30px 0px rgba(15, 20, 34, 0.34)"
-    ]
+    ];
   }
-}
-export default Shadows
+};
+export default Shadows;

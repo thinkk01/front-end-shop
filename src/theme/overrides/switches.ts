@@ -1,5 +1,4 @@
-// ** Type Import
-import { OwnerStateThemeType } from "."
+import { OwnerStateThemeType } from ".";
 
 const Switch = () => {
   return {
@@ -103,7 +102,7 @@ const Switch = () => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default Switch
+export default Switch;
