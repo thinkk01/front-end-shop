@@ -1,5 +1,4 @@
-// ** Type Import
-import { OwnerStateThemeType } from "."
+import { OwnerStateThemeType } from ".";
 
 const Table = () => {
   return {
@@ -63,7 +62,7 @@ const Table = () => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default Table
+export default Table;

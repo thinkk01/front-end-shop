@@ -1,6 +1,6 @@
-// ** Type Imports
-import { OwnerStateThemeType } from "."
-import { Skin } from "@/types/layouts"
+import { Skin } from "@/types/layouts";
+
+import { OwnerStateThemeType } from ".";
 
 const Drawer = (skin: Skin) => {
   return {
@@ -11,7 +11,7 @@ const Drawer = (skin: Skin) => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default Drawer
+export default Drawer;

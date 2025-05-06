@@ -1,5 +1,4 @@
-// ** Type Import
-import { OwnerStateThemeType } from "."
+import { OwnerStateThemeType } from ".";
 
 const Progress = () => {
   return {
@@ -18,7 +17,7 @@ const Progress = () => {
         }
       }
     }
-  }
-}
+  };
+};
 
-export default Progress
+export default Progress;

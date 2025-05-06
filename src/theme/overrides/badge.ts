@@ -6,6 +6,6 @@ const Badge = {
       }
     }
   }
-}
+};
 
-export default Badge
+export default Badge;

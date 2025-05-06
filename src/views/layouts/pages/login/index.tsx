@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import {
   Button,
   Checkbox,
@@ -27,10 +27,10 @@ import Image from "next/image";
 import CustomTextField from "@/components/text-field";
 import IconifyIcon, { FacebookIcon, GoogleIcon } from "@/components/Icon";
 import { EMAIL_REG, PASSWORD_REG } from "@/configs/regex";
+import { useAuth } from "@/hooks/useAuth";
 
 import LoginLight from "../../../../../public/images/v2-login-light.png";
-
-import ForgotPassword from "./components/ForgotPassword";
+import ForgotPassword from "../components/ForgotPassword";
 
 type TProps = {};
 const SignInContainer = styled(Stack)(({ theme }) => ({
@@ -78,11 +78,19 @@ const Card = styled(MuiCard)(({ theme }) => ({
 const LoginPage: NextPage<TProps> = () => {
   const [open, setOpen] = React.useState(false);
   const [showPassword,setShowPassword] = React.useState(false);
+  const [isRemember, setRememberMe] = React.useState(true);
+
+  const { login } = useAuth();
   const theme = useTheme();
+
   const schema = yup.object({
     email: yup.string().required("Email is required").matches(EMAIL_REG, "The field is must email type"),
     password: yup.string().required("Password is required").matches(PASSWORD_REG,"The password is contain charactor, special character, number"),
   });
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(event.target.checked);
+  };
 
   const {
     handleSubmit,
@@ -98,7 +106,9 @@ const LoginPage: NextPage<TProps> = () => {
   });
   console.log(errors);
   const onSubmit = handleSubmit((data)=> {
-    console.log("data", data);
+    if (!Object.keys(errors)?.length){
+      login({ ...data, rememberMe: isRemember });
+    }
   });
   return (
     <Box sx={{ height: "100vh", width: "100vw", backgroundColor: theme.palette.background.paper }}>
@@ -115,7 +125,7 @@ const LoginPage: NextPage<TProps> = () => {
         justifyContent: "center", flex: 1, 
         margin: "30px",
         borderRadius: "20px", 
-        backgroundColor: theme.palette.customColors.bodyBg,
+        backgroundColor: theme.palette.customColors?.bodyBg,
         height: "100%" }}>
         <Image src={LoginLight} alt="" style={{ height: "100%", width: "100%" }}></Image>
         </Box>
@@ -127,7 +137,7 @@ const LoginPage: NextPage<TProps> = () => {
         padding: 2, }}>
       <CssBaseline enableColorScheme />
       <SignInContainer direction="column" justifyContent="space-between">
-        <Card variant="outlined">
+        <Card variant="outlined" elevation={0}>
           <Typography
             component="h1"
             variant="h4"
@@ -136,7 +146,7 @@ const LoginPage: NextPage<TProps> = () => {
             Sign in
           </Typography>
           <form onSubmit={onSubmit} autoComplete="off">
-              <Box sx={{ mt: 2 ,mb: 4}}>
+              <Box sx={{ mt: 2 ,mb: 4 }}>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Controller
                   name="email"
@@ -157,7 +167,7 @@ const LoginPage: NextPage<TProps> = () => {
                   )}
                 />
               </Box>
-              <Box sx={{ mt: 2 ,mb: 4}}>
+              <Box sx={{ mt: 2 ,mb: 4 }}>
               <FormLabel htmlFor="password">Password</FormLabel>
               <Controller
                 name="password"
@@ -193,7 +203,7 @@ const LoginPage: NextPage<TProps> = () => {
    </Box>
 
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox checked={isRemember} onChange={handleCheckboxChange} color="primary" />}
               label="Remember me"
             />
 

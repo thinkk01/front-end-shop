@@ -2,8 +2,11 @@ import { AbilityBuilder, Ability } from "@casl/ability";
 export type Subjects = string;
 export type Actions = "manage" | "create" | "read" | "update" | "delete";
 export type AppAbility = Ability<[Actions, Subjects]> | undefined;
-export const AppAbility = Ability as any;
-export type ACLObj = { action: Actions; subject: string; }
+export const AppAbilityClass = Ability as any;
+export type ACLObj = { 
+  action: Actions; 
+  subject: string; 
+}
 
 /**
  * Please define your own Ability rules according to your app requirements.
@@ -11,7 +14,7 @@ export type ACLObj = { action: Actions; subject: string; }
  * admin can manage everything and client can just visit ACL page
  */
 const defineRulesFor = (role: string, subject: string) => {
-  const { can, rules } = new AbilityBuilder(AppAbility);
+  const { can, rules } = new AbilityBuilder(AppAbilityClass);
 
   if (role === "admin") {
     can("manage", "all");
@@ -25,7 +28,7 @@ const defineRulesFor = (role: string, subject: string) => {
 };
 
 export const buildAbilityFor = (role: string, subject: string): AppAbility => {
-  return new AppAbility(defineRulesFor(role, subject), {
+  return new AppAbilityClass(defineRulesFor(role, subject), {
     detectSubjectType: (object: { type: string }) => object!.type
   });
 };

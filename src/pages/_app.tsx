@@ -21,6 +21,7 @@ import AclGuard from "@/components/auth/AclGuard";
 import ReactHotToast from "@/components/react-hot-toast";
 import { useSettings } from "@/hooks/useSettings";
 import ThemeComponent from "@/theme/ThemeComponent";
+import UserLayout from "@/views/layouts/UserLayout";
 
 type ExtendedAppProps = AppProps & {
   Component: NextPageWithLayout;
@@ -67,7 +68,7 @@ export default function App(props: ExtendedAppProps) {
   const { settings } = useSettings();
 
   // Variables
-  const getLayout = Component.getLayout ?? ((page) => <>{page}</>);
+  const getLayout = Component.getLayout ?? ((page) => <UserLayout>{page}</UserLayout>);
 
   const setConfig = Component.setConfig ?? undefined;
 

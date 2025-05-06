@@ -1,6 +1,6 @@
-// ** Type Imports
-import { Skin } from "@/types/layouts"
-import { OwnerStateThemeType } from "."
+import { Skin } from "@/types/layouts";
+
+import { OwnerStateThemeType } from ".";
 
 const Snackbar = (skin: Skin) => {
   return {
@@ -13,7 +13,7 @@ const Snackbar = (skin: Skin) => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default Snackbar
+export default Snackbar;

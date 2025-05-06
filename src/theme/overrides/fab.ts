@@ -1,4 +1,4 @@
-import { OwnerStateThemeType } from "."
+import { OwnerStateThemeType } from ".";
 
 const FabButton = () => {
   return {
@@ -9,7 +9,7 @@ const FabButton = () => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default FabButton
+export default FabButton;

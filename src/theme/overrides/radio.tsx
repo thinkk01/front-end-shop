@@ -1,11 +1,9 @@
-// ** MUI Import
-import { useTheme } from "@mui/material/styles"
+import { useTheme } from "@mui/material/styles";
 
-// ** Type Import
-import { OwnerStateThemeType } from "."
+import { OwnerStateThemeType } from ".";
 
 const CheckedIcon = () => {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,11 +18,11 @@ const CheckedIcon = () => {
         d="M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z"
       />
     </svg>
-  )
-}
+  );
+};
 
 const Icon = () => {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <svg
@@ -37,8 +35,8 @@ const Icon = () => {
     >
       <path d="M12 3.5C16.6944 3.5 20.5 7.30558 20.5 12C20.5 16.6944 16.6944 20.5 12 20.5C7.30558 20.5 3.5 16.6944 3.5 12C3.5 7.30558 7.30558 3.5 12 3.5Z" />
     </svg>
-  )
-}
+  );
+};
 
 const Radio = () => {
   return {
@@ -91,7 +89,7 @@ const Radio = () => {
         })
       }
     }
-  }
-}
+  };
+};
 
-export default Radio
+export default Radio;
