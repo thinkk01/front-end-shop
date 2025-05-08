@@ -1,13 +1,12 @@
 import * as React from "react";
 import { NextPage } from "next";
 import { styled } from "@mui/material/styles";
-import MuiDrawer from "@mui/material/Drawer";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
+import Divider from "@mui/material/Divider";
+import Toolbar from "@mui/material/Toolbar";
+import MuiDrawer from "@mui/material/Drawer";
 
-import { mainListItems, secondaryListItems } from "./listItem";
+import ListVerticalLayout from "./ListVerticalLayout";
 
 const drawerWidth: number = 240;
 
@@ -42,6 +41,7 @@ type TProps = {
   toggleDrawer: () => void
 }
 const VerticalLayout: NextPage<TProps> = ({ open, toggleDrawer }) => {
+
   return (
         <Drawer variant="permanent" open={open}>
           <Toolbar
@@ -57,11 +57,7 @@ const VerticalLayout: NextPage<TProps> = ({ open, toggleDrawer }) => {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
-            {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
-          </List>
+            <ListVerticalLayout open={open} />
         </Drawer>
   );
 };

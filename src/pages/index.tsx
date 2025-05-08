@@ -2,14 +2,14 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import axios from "axios";
 import Head from "next/head";
+import React, { ReactNode } from "react";
 
 import { useSettings } from "@/hooks/useSettings";
-import CustomTextField from "@/components/text-field";
+import LayoutNotApp from "@/views/layouts/LayoutNotApp";
 
 export default function Home() {
   const theme = useTheme();
   const { settings } = useSettings();
-  console.log("theme", { theme, settings });
   return (
     <>
       <Head>
@@ -21,3 +21,4 @@ export default function Home() {
     </>
   );
 }
+Home.getLayout = (page: ReactNode) => <LayoutNotApp>{page}</LayoutNotApp>;

@@ -26,10 +26,9 @@ import Image from "next/image";
 
 import CustomTextField from "@/components/text-field";
 import IconifyIcon, { FacebookIcon, GoogleIcon } from "@/components/Icon";
+import RegisterLight from "@/../../public/images/v2-login-light.png";
+import RegisterDark from "@/../../public/images/v2-login-light.png";
 import { EMAIL_REG, PASSWORD_REG } from "@/configs/regex";
-
-import RegisterLight from "../../../../../public/images/v2-login-light.png";
-import RegisterDark from "../../../../../public/images/v2-login-light.png";
 type TProps = {}
 type TPropsDefault = {
     email: "",

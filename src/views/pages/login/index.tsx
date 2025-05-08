@@ -28,8 +28,8 @@ import CustomTextField from "@/components/text-field";
 import IconifyIcon, { FacebookIcon, GoogleIcon } from "@/components/Icon";
 import { EMAIL_REG, PASSWORD_REG } from "@/configs/regex";
 import { useAuth } from "@/hooks/useAuth";
+import LoginLight from "@/../../public/images/v2-login-light.png";
 
-import LoginLight from "../../../../../public/images/v2-login-light.png";
 import ForgotPassword from "../components/ForgotPassword";
 
 type TProps = {};
@@ -98,13 +98,12 @@ const LoginPage: NextPage<TProps> = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "admin@gmail.com",
+      password: "123456789Kha@",
     },
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-  console.log(errors);
   const onSubmit = handleSubmit((data)=> {
     if (!Object.keys(errors)?.length){
       login({ ...data, rememberMe: isRemember });
