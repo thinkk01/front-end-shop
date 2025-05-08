@@ -7,6 +7,9 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import { NextPage } from "next";
 
+import IconifyIcon from "@/components/Icon";
+import UserDropDown from "@/components/user-dropdown";
+
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
@@ -17,6 +20,7 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  background: theme.palette.mode === "light" ? theme.palette.customColors?.lightPaperBg: theme.palette.customColors?.darkPaperBg,
   color: theme.palette.primary.main,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
@@ -33,9 +37,10 @@ const AppBar = styled(MuiAppBar, {
 }));
 type TProps = {
     open: boolean,
-    toggleDrawer: () => void
+    toggleDrawer: () => void,
+    isHideMenu?: boolean
 }
-const HorizontalLayout: NextPage<TProps> = ({ open , toggleDrawer }) => {
+const HorizontalLayout: NextPage<TProps> = ({ open , toggleDrawer,isHideMenu }) => {
   return (
     <AppBar position="absolute" open={open}>
     <Toolbar
@@ -53,7 +58,9 @@ const HorizontalLayout: NextPage<TProps> = ({ open , toggleDrawer }) => {
           ...(open && { display: "none" }),
         }}
       >
-        {/* <MenuIcon /> */}
+        {!isHideMenu && (
+          <IconifyIcon icon="material-symbols:menu" width="48" height="48" color="black" />
+        ) }
       </IconButton>
       <Typography
         component="h1"
@@ -66,9 +73,10 @@ const HorizontalLayout: NextPage<TProps> = ({ open , toggleDrawer }) => {
       </Typography>
       <IconButton color="inherit">
         <Badge badgeContent={4} color="secondary">
-          {/* <NotificationsIcon /> */}
+        <IconifyIcon icon="tdesign:notification-filled" width="24" height="24" />
         </Badge>
       </IconButton>
+        <UserDropDown/>
     </Toolbar>
   </AppBar>
   );

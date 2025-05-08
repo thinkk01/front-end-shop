@@ -1,8 +1,10 @@
-import { ACLObj } from "@/configs/acl";
-import { NextComponentType, NextPageContext } from "next";
-import { ReactElement } from "react";
 
-declare module 'next' {
+import { NextComponentType, NextPageContext } from "next";
+import { ReactElement, ReactNode } from "react";
+
+import { ACLObj } from "@/configs/acl";
+
+declare module "next" {
     export declare type NextPage<P = {}, IP = P> = NextComponentType<NextPageContext, IP, P> & {
         acl?: ACLObj
         authGuard?: boolean
