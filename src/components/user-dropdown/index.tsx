@@ -1,7 +1,8 @@
 import React from "react";
-import { Avatar, Box, Button, Menu, MenuItem } from "@mui/material";
+import { Avatar, Box, Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 import { DropdownUser } from "@/configs/layout";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,12 +15,10 @@ type TProps = {
 
 const UserDropDown = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { t } = useTranslation(); 
   const open = Boolean(anchorEl);
   const { user, logout } = useAuth();
-  // const handleClick = (path) => {
-  //   handleClose();
-  //   navigate(path); 
-  // };
+
   console.log(user);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -29,12 +28,13 @@ const UserDropDown = () => {
   };
   return (
     <Box>
-      <Button
+      <Tooltip title={t("Account")}>
+      <IconButton
         id="basic-button"
+        onClick={handleClick}
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
       >
         <Avatar sx={{ width: 32, height: 32 }} >
           {user?.avatar ? (
@@ -44,7 +44,8 @@ const UserDropDown = () => {
           )}
    
         </Avatar>
-      </Button>
+      </IconButton>
+      </Tooltip>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -67,7 +68,7 @@ const UserDropDown = () => {
           <>
             <MenuItem disabled>{user.email}</MenuItem>
             <MenuItem onClick={handleClose}>
-              <Link href="/profile">My Profile</Link>
+              <Link href="/my-profile">{t("my_profile")}</Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
               <Link href="addAnotherAccount">Add Another Account</Link>

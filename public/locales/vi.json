@@ -1,0 +1,16 @@
+{
+    "Account": "Tài khoản",
+    "my_profile": "Hồ sơ của tôi",
+    "Role": "Nhóm vai trò",
+    "Full name": "Họ và tên",
+    "Phone Number": "Số điện thoại",
+    "Email" : "Email",
+    "Address": "Địa Chỉ",
+    "City": "Thành phố",
+    "Type_your_email":"Nhập email của bạn",
+    "Type_your_full_name":"Nhập tên đầy đủ của bạn",
+    "Type_your_address":"Nhập địa chỉ của bạn",
+    "Type_your_city":"Nhập số thành phố của bạn",
+    "Type_your_phone_number":"Nhập số điện thoại của bạn",
+    "Upload": "Tải ảnh lên"
+}

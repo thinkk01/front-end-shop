@@ -22,6 +22,7 @@ import ReactHotToast from "@/components/react-hot-toast";
 import { useSettings } from "@/hooks/useSettings";
 import ThemeComponent from "@/theme/ThemeComponent";
 import UserLayout from "@/views/layouts/UserLayout";
+import { AxiosInterceptor } from "@/helper/axios";
 
 type ExtendedAppProps = AppProps & {
   Component: NextPageWithLayout;
@@ -109,6 +110,7 @@ export default function App(props: ExtendedAppProps) {
       </Head>
 
       <AuthProvider>
+        <AxiosInterceptor>
         <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
           <SettingsConsumer>
             {({ settings }) => {
@@ -131,6 +133,7 @@ export default function App(props: ExtendedAppProps) {
             }}
           </SettingsConsumer>
         </SettingsProvider>
+        </AxiosInterceptor>
       </AuthProvider>
     </Provider>
   );

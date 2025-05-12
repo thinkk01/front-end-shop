@@ -6,10 +6,15 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { Button } from "@mui/material";
 
 import IconifyIcon from "@/components/Icon";
 import UserDropDown from "@/components/user-dropdown";
-
+import ModeToggle from "@/components/mode-toggle";
+import LanguageDropDown from "@/components/language-dropdown";
+import { ROUTE_CONFIG } from "@/configs/route";
+import { useAuth } from "@/hooks/useAuth";
 const drawerWidth: number = 240;
 
 interface AppBarProps extends MuiAppBarProps {
@@ -41,6 +46,8 @@ type TProps = {
     isHideMenu?: boolean
 }
 const HorizontalLayout: NextPage<TProps> = ({ open , toggleDrawer,isHideMenu }) => {
+  const { user } = useAuth();
+  const router = useRouter();
   return (
     <AppBar position="absolute" open={open}>
     <Toolbar
@@ -76,7 +83,13 @@ const HorizontalLayout: NextPage<TProps> = ({ open , toggleDrawer,isHideMenu }) 
         <IconifyIcon icon="tdesign:notification-filled" width="24" height="24" />
         </Badge>
       </IconButton>
+      <ModeToggle/>
+      { user ? (
         <UserDropDown/>
+      ) : (
+        <Button sx={{ ml: 2, width: "auto" }} onClick={() => router.push(ROUTE_CONFIG.LOGIN)}>Login</Button>
+      )}
+        <LanguageDropDown/>
     </Toolbar>
   </AppBar>
   );
