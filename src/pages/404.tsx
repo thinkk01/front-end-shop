@@ -1,6 +1,8 @@
+import { ReactNode } from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
+import BlankLayout from "@/views/layouts/BlankLayout";
 const Error404 = () => {
   return (
     <Box className="content-center">
@@ -12,3 +14,4 @@ const Error404 = () => {
 };
 
 export default Error404;
+Error404.getLayout = (page: ReactNode) => <BlankLayout>{ page }</BlankLayout>;

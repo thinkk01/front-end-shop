@@ -8,17 +8,31 @@ export const setLocalUserData = (userData: string, accessToken:string, refreshTo
     };
 };
 export const getLocalUserData = () => {
+    if (typeof window !== "undefined") {
+        return {
+            userData: window.localStorage.getItem(auth.userData),
+            accessToken: window.localStorage.getItem(auth.storageTokenKeyName),
+            refreshToken: window.localStorage.getItem(auth.onTokenExpiration),
+        };
+    }
     return {
-        userData: window.localStorage.getItem(auth.userData),
-        accessToken: window.localStorage.getItem(auth.storageTokenKeyName),
-        refreshToken: window.localStorage.getItem(auth.onTokenExpiration),
+        userData: "",
+        accessToken: "",
+        refreshToken: "",
     };
 };
 export const removeLocalUserData = () => {
+    if (typeof window !== "undefined") {
     return {
         userData: window.localStorage.removeItem(auth.userData),
         accessToken: window.localStorage.removeItem(auth.storageTokenKeyName),
         refreshToken: window.localStorage.removeItem(auth.onTokenExpiration),
     };
+}
+return {
+    userData: "",
+    accessToken: "",
+    refreshToken: "",
+};
 };
 

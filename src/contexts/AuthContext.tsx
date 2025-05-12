@@ -3,9 +3,10 @@ import { useRouter } from "next/router";
 import axios from "axios";
 
 import authConfig from "@/configs/auth";
-import { loginAuth } from "@/service/auth";
+import { loginAuth, logoutAuth } from "@/service/auth";
 import { CONFIG_API } from "@/configs/api";
 import { removeLocalUserData, setLocalUserData } from "@/helper/storage";
+import instanceAxios from "@/helper/axios";
 
 import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from "./types";
 
@@ -25,10 +26,11 @@ type Props = {
 }
 
 const AuthProvider = ({ children }: Props) => {
-  // ** States
+  
   const [user, setUser] = useState<UserDataType | null>(defaultProvider.user);
+
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading);
-  // ** Hooks
+
   const router = useRouter();
 
   useEffect(() => {
@@ -36,15 +38,12 @@ const AuthProvider = ({ children }: Props) => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName);
       if (storedToken) {
         setLoading(true);
-        await axios
-          .get(CONFIG_API.AUTH.AUTHME, {
-            headers: {
-              Authorization: `Bearer ${storedToken}`
-            }
-          })
+        await instanceAxios
+          .get(CONFIG_API.AUTH.AUTHME)
           .then(async response => {
+            // console.log(response)
             setLoading(false);
-            setUser({ ...response.data.userData });
+            setUser({ ...response.data.data });
           })
           .catch(() => {
             removeLocalUserData();
@@ -63,8 +62,10 @@ const AuthProvider = ({ children }: Props) => {
   }, []);
 
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
+    setLoading(true);
     loginAuth({ email: params.email,password: params.password })
       .then(async response => {
+        setLoading(false);
         params.rememberMe
           ? setLocalUserData(JSON.stringify(response.data.userData),response.data.access_token,response.data.refresh_token)
           : null;
@@ -79,14 +80,17 @@ const AuthProvider = ({ children }: Props) => {
       })
 
       .catch(err => {
+        setLoading(false);
         if (errorCallback) errorCallback(err);
       });
   };
 
   const handleLogout = () => {
-    setUser(null);
-    removeLocalUserData();
-    router.push("/login");
+    logoutAuth().then(res => {
+      setUser(null);
+      removeLocalUserData();
+      router.push("/login");
+    });
   };
 
   const values = {

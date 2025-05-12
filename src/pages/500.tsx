@@ -1,5 +1,7 @@
 import Typography from "@mui/material/Typography";
+import { ReactNode } from "react";
 
+import BlankLayout from "@/views/layouts/BlankLayout";
 const Error500 = () => {
   return (
     <Typography variant="h2" sx={{ mb: 1.5 }}>
@@ -9,3 +11,4 @@ const Error500 = () => {
 };
 
 export default Error500;
+Error500.getLayout = (page: ReactNode) => <BlankLayout>{ page }</BlankLayout>;

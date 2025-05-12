@@ -22,7 +22,7 @@ const GuestGuard = (props:GuestGuardProps) =>{
                 router.replace("/");
             }
         },[router.route]);
-        if ( authContext.loading || (!authContext.loading && !authContext.user !== null )) return fallback; 
+        if ( authContext.loading || (!authContext.loading && authContext.user !== null)) return fallback; 
     return <>{children}</>;
 };
 export default GuestGuard;
