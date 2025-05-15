@@ -63,14 +63,13 @@ const AuthProvider = ({ children }: Props) => {
 
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
     setLoading(true);
-    loginAuth({ email: params.email,password: params.password })
+    loginAuth({ email: params.email, password: params.password })
       .then(async response => {
         setLoading(false);
         params.rememberMe
           ? setLocalUserData(JSON.stringify(response.data.userData),response.data.access_token,response.data.refresh_token)
           : null;
         const returnUrl = router.query.returnUrl;
-        console.log(response);
         setUser({ ...response.data.user });
         params.rememberMe ? window.localStorage.setItem("userData", JSON.stringify(response.data.user)) : null;
 

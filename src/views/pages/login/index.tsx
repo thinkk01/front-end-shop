@@ -29,6 +29,7 @@ import IconifyIcon, { FacebookIcon, GoogleIcon } from "@/components/Icon";
 import { EMAIL_REG, PASSWORD_REG } from "@/configs/regex";
 import { useAuth } from "@/hooks/useAuth";
 import LoginLight from "@/../../public/images/v2-login-light.png";
+import { LoginParams } from "@/contexts/types";
 
 import ForgotPassword from "../components/ForgotPassword";
 
@@ -96,15 +97,11 @@ const LoginPage: NextPage<TProps> = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "admin@gmail.com",
-      password: "123456789Kha@",
-    },
+  } = useForm<LoginParams,"rememberMe">({
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-  const onSubmit = handleSubmit((data)=> {
+  const onSubmit = handleSubmit((data)=> {  
     if (!Object.keys(errors)?.length){
       login({ ...data, rememberMe: isRemember });
     }

@@ -65,7 +65,7 @@ const AxiosInterceptor:FC<TAxiosInterceptor> = ({ children }) => {
         return config;
     }); 
     instanceAxios.interceptors.response.use(response => {
-        console.log( response );
+        // console.log( response );
         return response;
     });
     return <> { children } </>;

@@ -4,5 +4,6 @@ export const CONFIG_API = {
         INDEX: `${BASE_URL}/auth/login`,
         AUTHME: `${BASE_URL}/auth/me`,
         LOGOUT: `${BASE_URL}/auth/logout`,
+        REGISTER: `${BASE_URL}/auth/register`,
     }
 };

@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import * as React from "react";
-import { Collapse, ListItemButton, ListItemText, ListSubheader } from "@mui/material";
-import { ListItemIcon } from "@mui/material";
+import { Collapse, ListItemButton, ListItemText, ListSubheader, ListItemIcon } from "@mui/material";
 import List from "@mui/material/List";
 
 import { VerticalItem } from "@/configs/layout";

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   Checkbox,
@@ -23,12 +23,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IconButton } from "@mui/material";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 import CustomTextField from "@/components/text-field";
 import IconifyIcon, { FacebookIcon, GoogleIcon } from "@/components/Icon";
 import RegisterLight from "@/../../public/images/v2-login-light.png";
 import RegisterDark from "@/../../public/images/v2-login-light.png";
 import { EMAIL_REG, PASSWORD_REG } from "@/configs/regex";
+import { registerAuthAsync } from "@/stores/apps/auth/actions";
+import { AppDispatch, RootState } from "@/stores";
+import FallbackSpinner from "@/components/fall-back";
+import { resetInitialState } from "@/stores/apps/auth";
+import { ROUTE_CONFIG } from "@/configs/route";
 type TProps = {}
 type TPropsDefault = {
     email: "",
@@ -81,6 +89,9 @@ const RegisterPage: NextPage<TProps> = () => {
   const [open, setOpen] = React.useState(false);
   const [showPassword,setShowPassword] = React.useState(false);
   const [showConfirmPassword,setShowConfirmPassword] = React.useState(false);
+  const { isLoading, isError, isSuccess, message } = useSelector((state: RootState) => state.auth);
+  const router = useRouter();
+  const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
   const schema = yup.object({
     email: yup.string()
@@ -108,11 +119,23 @@ const RegisterPage: NextPage<TProps> = () => {
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-  console.log(errors);
-  const onSubmit = handleSubmit((data)=> {
-    console.log("data", data);
-  });
+  const onSubmit = (data: { email: string, password: string }) => {
+    dispatch(registerAuthAsync({ email: data.email,password: data.password }));
+  };
+  useEffect(() => {
+    if (message) {
+      if (isError){
+        toast.error(message);
+      } else if (isSuccess) {
+        toast.success(message);
+        router.push(ROUTE_CONFIG.LOGIN);
+      }
+      dispatch(resetInitialState());
+    }
+  },[isError, isSuccess, message]);
   return (
+    <>
+    { isLoading && <FallbackSpinner/> } 
     <Box sx={{ height: "100vh", width: "100vw", backgroundColor: theme.palette.background.paper }}>
       <Box sx={{ display: "flex",
         alignItems: "center",
@@ -147,7 +170,7 @@ const RegisterPage: NextPage<TProps> = () => {
           >
             Register
           </Typography>
-          <form onSubmit={onSubmit} autoComplete="off">
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
               <Box sx={{ mt: 2 ,mb: 4 }}>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <Controller
@@ -281,6 +304,7 @@ const RegisterPage: NextPage<TProps> = () => {
       </Box>
       </Box>
     </Box>
+    </>
   );
 };
 

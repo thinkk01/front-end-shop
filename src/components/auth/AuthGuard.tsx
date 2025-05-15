@@ -33,7 +33,7 @@ const AuthGuard = (props: AuthGuardProps) =>{
             authContext.setUser(null);
             removeLocalUserData();
         }
-    },[ router.route ]);
+    },[router.route]);
     if (authContext.loading || authContext.user === null ){
         return fallback;
     }

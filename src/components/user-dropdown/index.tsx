@@ -38,7 +38,7 @@ const UserDropDown = () => {
       >
         <Avatar sx={{ width: 32, height: 32 }} >
           {user?.avatar ? (
-            <Image src={user?.avatar || ""} alt="avatar" style={{ width:"auto", height:"auto" }}/>
+            <Image src={user?.avatar || ""} alt="avatar" width={100} height={100} style={{ width:"auto", height:"auto", objectFit: "cover" }}/>
           ): (
             <IconifyIcon icon="ph:user-thin" width="24" height="24" />
           )}
