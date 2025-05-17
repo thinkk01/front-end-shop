@@ -23,12 +23,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IconButton } from "@mui/material";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 import CustomTextField from "@/components/text-field";
 import IconifyIcon, { FacebookIcon, GoogleIcon } from "@/components/Icon";
 import { EMAIL_REG, PASSWORD_REG } from "@/configs/regex";
 import { useAuth } from "@/hooks/useAuth";
 import LoginLight from "@/../../public/images/v2-login-light.png";
+import { LoginParams } from "@/contexts/types";
 
 import ForgotPassword from "../components/ForgotPassword";
 
@@ -79,7 +82,7 @@ const LoginPage: NextPage<TProps> = () => {
   const [open, setOpen] = React.useState(false);
   const [showPassword,setShowPassword] = React.useState(false);
   const [isRemember, setRememberMe] = React.useState(true);
-
+  const { t } = useTranslation();
   const { login } = useAuth();
   const theme = useTheme();
 
@@ -96,17 +99,15 @@ const LoginPage: NextPage<TProps> = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "admin@gmail.com",
-      password: "123456789Kha@",
-    },
+  } = useForm<LoginParams,"rememberMe">({
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-  const onSubmit = handleSubmit((data)=> {
+  const onSubmit = handleSubmit((data)=> {  
     if (!Object.keys(errors)?.length){
-      login({ ...data, rememberMe: isRemember });
+      login({ ...data, rememberMe: isRemember }, (err) => {
+        toast.error(t("The email or password is wrong"));
+      });
     }
   });
   return (

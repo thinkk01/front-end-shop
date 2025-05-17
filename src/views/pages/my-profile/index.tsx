@@ -1,21 +1,28 @@
 "use client";
-import React, { useEffect, useTransition } from "react";
+import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import { Controller, useForm } from "react-hook-form";
-import { Avatar, Box, Button, Paper, styled } from "@mui/material";
-import { FormLabel } from "@mui/material";
-import { useTheme } from "@mui/material";
+import { Avatar, Box, Button, Paper, styled, FormLabel, useTheme, IconButton } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Grid from "@mui/material/Grid";
-import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 
-import { EMAIL_REG, PASSWORD_REG } from "@/configs/regex";
-import { useAuth } from "@/hooks/useAuth";
+import { AppDispatch, RootState } from "@/stores";
+import { EMAIL_REG } from "@/configs/regex";
 import CustomTextField from "@/components/text-field";
 import IconifyIcon from "@/components/Icon";
 import WrapFileUpload from "@/components/wrap-file-upload";
+import { getAuthMe } from "@/service/auth";
+import { UserDataType } from "@/contexts/types";
+import { convertBase64, separationFullName, toFullName } from "@/utils";
+import { updateAuthMeAsync } from "@/stores/apps/auth/actions";
+import FallbackSpinner from "@/components/fall-back";
+import { resetInitialState } from "@/stores/apps/auth";
+import Spinner from "@/components/spinner";
+
 type TProps = {}
 type TPropsDefault = {
     email: string,
@@ -36,22 +43,28 @@ const Item = styled(Paper)(({ theme }) => ({
   }));
 const MyProfilePage: NextPage<TProps> = () => {
     const theme = useTheme();
-    const { user } = useAuth();
+    const [ loading, setLoading ] = useState(false);
+    // const { user } = useAuth();
     const { t } = useTranslation();
+    const { i18n } = useTranslation();
+    const [avatar, setAvatar] = useState("");
+    const [ user, setUser ] = useState<UserDataType | null>(null);
+    const [roleId,setRoleId] = useState("");
+    const dispatch:AppDispatch = useDispatch();
+    const { isLoading, isErrorUpdateMe, messageUpdateMe, isSuccessUpdateMe } = useSelector((state:RootState) => state.auth);
     const schema = yup.object({
     email: yup.string()
           .required("Email is required")
           .matches(EMAIL_REG, "The field is must email type"),
-    address: yup.string()
-          .required("Adress is required"),
-    city: yup.string()
-          .required("City is required"),
     fullName: yup.string()
             .required("Fullname is required"),
     phoneNumber: yup.string()
-            .required("Phone Number is required"),
+            .required("Phone Number is required")
+            .min(8, "The Phone Number is min 8 number"),
     role: yup.string()
-            .required("Email is required")
+            .required("Email is required"),
+    city: yup.string().notRequired(),
+    address: yup.string().notRequired()
     });
    const defaultValues: TPropsDefault = {
      email:"",
@@ -71,42 +84,85 @@ const MyProfilePage: NextPage<TProps> = () => {
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-  useEffect(() => {
-    if (user) {
-        reset({
-            email:"",
-            address:"",
-            city:"",
-            phoneNumber:"",
-            role: user.role?.name,
-            fullName:""
-        });
-    } 
-  }, [user]);
-   const onSubmit = handleSubmit((data)=> {
-});
-const handleUploadFunction = () => {
+  const fetchGetAuthMe = async () => {
+    await getAuthMe()
+        .then( async res => {
+            setLoading(false);
+            const data = res?.data;
+            if (data) {
+                setRoleId(data?.role);
+                setAvatar(data?.avatar);
+                reset({
+                    email: data?.email,
+                    address: data?.address,
+                    city: data?.city,
+                    phoneNumber: data?.phoneNumber,
+                    fullName: toFullName(data?.lastName, data?.middleName, data?.firstName, i18n.language),
+                    role: data?.role?.name,
+                });
+            }
 
+            setUser({ ...res.data });
+        })
+        .catch (() => {
+            setUser(null);
+            setLoading(false);
+        });
+  };
+    useEffect(() => {
+        fetchGetAuthMe();
+    }, [i18n.language]);
+    useEffect(() => {
+        if (messageUpdateMe) {
+        if (isErrorUpdateMe){
+            toast.error(messageUpdateMe);
+        } else if (isSuccessUpdateMe) {
+            toast.success(messageUpdateMe);
+            fetchGetAuthMe();
+        }
+        dispatch(resetInitialState());
+        }
+    },[isErrorUpdateMe, isSuccessUpdateMe, messageUpdateMe]);
+const onSubmit = handleSubmit((data:any)=> {
+    const { firstName, lastName, middeName } = separationFullName(data.fullName, i18n.language);
+    dispatch(updateAuthMeAsync({
+        email: data.email,
+        firstName: firstName,
+        lastName: lastName,
+        middleName: middeName,
+        role: roleId,
+        phoneNumber: data.phoneNumber,
+        avatar,
+        address: data.address,
+        // city: data.city
+    }));
+});
+const handleUploadFunction = async (data: File) => {
+    const base64 = await convertBase64(data);
+    setAvatar(base64 as string);
 };
   return (
+    <>
+    {loading || isLoading && <Spinner />}
     <form onSubmit={onSubmit} autoComplete="off">   
         <Grid container spacing={2} >
             <Grid container size={{ md:7, xs:6 }} spacing={2}>
-            <Grid size={{ md:7, xs:6 }} sx={{ display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:2 }} >
-                  <Avatar sx={{ width: 108, height: 108 } }>
-                    {user?.avatar ? (
-                        <Image 
-                            src={ user?.avatar || "" }
-                            alt="avatar"
-                            style={{
-                                height:"auto",
-                                width:"auto",
-                        }}/>
+            <Grid size={{ md:7, xs:6 }} >
+                <Box sx={{ display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:2, position:"relative" }}>
+                    <Box sx={{ position: "relative" }}>
+                    <IconButton sx={{ position: "absolute", top: -5, right: -20, zIndex: 2, color: theme.palette.primary.main }} edge="start" color="inherit" onClick={() => setAvatar("")}>
+                        <IconifyIcon icon="material-symbols:close" />
+                    </IconButton>
+                    {avatar ? (
+                        <Avatar src={avatar} sx={{ width: 108, height: 108 } }>
+                            <IconifyIcon icon="ph:user-thin" fontSize={70}/>
+                        </Avatar>
                     ): (
-                        <IconifyIcon icon="ph:user-thin"/>
+                        <Avatar sx={{ width: 108, height: 108 } }>
+                            <IconifyIcon icon="ph:user-thin"/>
+                        </Avatar>
                     )}
-                  </Avatar>
-                  <Box >
+                </Box>
                     <WrapFileUpload uploadFunction={handleUploadFunction} objectAcceptFile={{
                         "image/jpeg" : [".jpg", ".jpeg"],
                         "image/png": [".png"]
@@ -115,7 +171,7 @@ const handleUploadFunction = () => {
                             {t("Upload")}
                         </Button>
                     </WrapFileUpload>
-                  </Box>
+                </Box>
                 </Grid>
                   <Grid size={{ md:7, xs:6 }} >
                         <FormLabel htmlFor="email">{t("Email")}</FormLabel>
@@ -136,6 +192,7 @@ const handleUploadFunction = () => {
                                 onBlur={onBlur}
                                 value={value}
                                 required
+                                disabled
                                 fullWidth
                                 error={Boolean(errors?.email)}
                                 helperText={errors?.email?.message}
@@ -219,10 +276,7 @@ const handleUploadFunction = () => {
                             onChange={onChange}
                             onBlur={onBlur}
                             value={value}
-                            required
                             fullWidth
-                            error={Boolean(errors?.email)}
-                            helperText={errors?.email?.message}
                         />
                         )}
                     />
@@ -248,10 +302,7 @@ const handleUploadFunction = () => {
                                 onChange={onChange}
                                 onBlur={onBlur}
                                 value={value}
-                                required
                                 fullWidth
-                                error={Boolean(errors?.email)}
-                                helperText={errors?.email?.message}
                             />
                             )}
                         />
@@ -272,7 +323,15 @@ const handleUploadFunction = () => {
                             id="phone"
                             placeholder={t("Type_your_phone_number")}
                             type="number"
-                            onChange={onChange}
+                            onChange={(e) => {
+                                const numValue = e.target.value.replace(/\D/g,"");
+                                onChange(numValue);
+                            }}
+                            inputProps={{
+                                inputMode: "numeric",
+                                pattern: "[0-9]*",
+                                minLength: 8
+                            }}
                             onBlur={onBlur}
                             value={value}
                             required
@@ -291,6 +350,7 @@ const handleUploadFunction = () => {
             Thay đổi
         </Button>
     </form>
+    </>
   );
 };
 

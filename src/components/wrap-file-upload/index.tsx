@@ -11,10 +11,10 @@ const WrapFileUpload = (props: TProps) => {
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
         accept: objectAcceptFile ?? {},
         onDrop: (file) => {
-            console.log(file);
-            },
-        }
-    );
+            uploadFunction(file[0]);
+        },
+    }
+);
 
   return (
       <div {...getRootProps({ className: "dropzone" })}>

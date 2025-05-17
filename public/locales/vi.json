@@ -12,5 +12,12 @@
     "Type_your_address":"Nhập địa chỉ của bạn",
     "Type_your_city":"Nhập số thành phố của bạn",
     "Type_your_phone_number":"Nhập số điện thoại của bạn",
-    "Upload": "Tải ảnh lên"
+    "Upload": "Tải ảnh lên",
+    "Change_Password": "Thay đổi mật khẩu",
+    "The email or password is wrong": "Sai email hoặc password",
+    "Login success": "Đăng nhập thành công",
+    "Current Password": "Mật khẩu hiện tại",
+    "New Password" : "Mật khẩu mới",
+    "Confirm New Password": "Nhập lại mật khẩu mới",
+    "Change Password": "Thay đổi mật khẩu"
 }

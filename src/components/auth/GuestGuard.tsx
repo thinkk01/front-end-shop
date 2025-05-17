@@ -1,7 +1,6 @@
 import { ReactElement, ReactNode, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import { removeLocalUserData } from "@/helper/storage";
 import auth from "@/configs/auth";
 import { useAuth } from "@/hooks/useAuth";
 
