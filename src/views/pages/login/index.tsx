@@ -23,6 +23,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IconButton } from "@mui/material";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 import CustomTextField from "@/components/text-field";
 import IconifyIcon, { FacebookIcon, GoogleIcon } from "@/components/Icon";
@@ -80,7 +82,7 @@ const LoginPage: NextPage<TProps> = () => {
   const [open, setOpen] = React.useState(false);
   const [showPassword,setShowPassword] = React.useState(false);
   const [isRemember, setRememberMe] = React.useState(true);
-
+  const { t } = useTranslation();
   const { login } = useAuth();
   const theme = useTheme();
 
@@ -103,7 +105,9 @@ const LoginPage: NextPage<TProps> = () => {
   });
   const onSubmit = handleSubmit((data)=> {  
     if (!Object.keys(errors)?.length){
-      login({ ...data, rememberMe: isRemember });
+      login({ ...data, rememberMe: isRemember }, (err) => {
+        toast.error(t("The email or password is wrong"));
+      });
     }
   });
   return (

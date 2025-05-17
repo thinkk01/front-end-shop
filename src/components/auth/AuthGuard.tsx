@@ -3,13 +3,14 @@ import { ReactElement, ReactNode, useEffect } from "react";
 
 import { useAuth } from "@/hooks/useAuth";
 import auth from "@/configs/auth";
-import { removeLocalUserData } from "@/helper/storage";
+import { getTemporaryToken, removeLocalUserData, removeTemporaryToken } from "@/helper/storage";
 interface AuthGuardProps{
     children: ReactNode,
     fallback: ReactElement | null
 }
 const AuthGuard = (props: AuthGuardProps) =>{
     const { children, fallback } = props;
+    const { temporaryToken } = getTemporaryToken();
     const authContext = useAuth();
     const router = useRouter();
     useEffect(() =>{
@@ -18,7 +19,8 @@ const AuthGuard = (props: AuthGuardProps) =>{
         }
         if (authContext.user === null 
             && !window.localStorage.getItem(auth.storageTokenKeyName) 
-            && !window.localStorage.getItem(auth.userData)){
+            && !window.localStorage.getItem(auth.userData)
+            && !temporaryToken){
                 // if access / or login without login auth => path url : returnURL after login : ?returnURL:/login => /
                 if (router.asPath !== "/" && router.asPath !== "/login"){
                     router.replace({
@@ -34,6 +36,15 @@ const AuthGuard = (props: AuthGuardProps) =>{
             removeLocalUserData();
         }
     },[router.route]);
+    useEffect(() => {
+        const handleUnload = () => {
+            removeTemporaryToken();
+        };
+        window.addEventListener("beforeunload",handleUnload);
+        return () => {
+            window.addEventListener("beforeunload",handleUnload);
+        };
+    },[]);
     if (authContext.loading || authContext.user === null ){
         return fallback;
     }

@@ -2,7 +2,7 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { registerAuthAsync, updateAuthMeAsync } from "./actions";
+import { changePasswordMeAsync, registerAuthAsync, updateAuthMeAsync } from "./actions";
 
 interface DataParams {
   q: string
@@ -17,14 +17,21 @@ interface Redux {
 }
 
 const initialState = {
+  //general
   isLoading: false,
+  typeError: "",
+  //register
   isSuccess: true,
   isError: false,
   message: "",
-  typeError: "",
+  //update
   isSuccessUpdateMe: false,
   isErrorUpdateMe: true,
   messageUpdateMe: "",
+  //changePassword
+  isSuccessChangePassword: true,
+  isErrorChangePassword: false,
+  messageChangePassword: "",
 };
 export const authSlice = createSlice({
   name: "auth",
@@ -32,13 +39,19 @@ export const authSlice = createSlice({
   reducers: {
     resetInitialState: (state) => {
       state.isLoading = false;
+      state.typeError = "";
+      
       state.isSuccess = false;
       state.isError = true;
       state.message = "";
-      state.typeError = "";
+
       state.isSuccessUpdateMe = false;
       state.isErrorUpdateMe = true;
       state.messageUpdateMe = "";
+
+      state.isSuccessChangePassword = true;
+      state.isErrorChangePassword = false;
+      state.messageChangePassword = "";
     }
   },
   extraReducers: builder => {
@@ -65,6 +78,7 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(updateAuthMeAsync.fulfilled, (state, action) => {
+      console.log(action);
       state.isLoading = false;
       state.isSuccessUpdateMe = !!action.payload?.data?.email;
       state.isErrorUpdateMe = !action.payload?.data?.email;
@@ -74,8 +88,26 @@ export const authSlice = createSlice({
     builder.addCase(updateAuthMeAsync.rejected, (state, action) => {
       state.isLoading = false;
       state.isSuccessUpdateMe = false;
-      state.isErrorUpdateMe = false;
+      state.isErrorUpdateMe = true;
       state.messageUpdateMe = "";
+      state.typeError = "";
+    });
+    //change password
+    builder.addCase(changePasswordMeAsync.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(changePasswordMeAsync.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccessChangePassword = !!action.payload?.data;
+      state.isErrorChangePassword = !action.payload?.data;
+      state.messageChangePassword = action.payload?.message;
+      state.typeError = action.payload?.typeError;
+    });
+    builder.addCase(changePasswordMeAsync.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isSuccessChangePassword = false;
+      state.isErrorChangePassword = true;
+      state.messageChangePassword = "";
       state.typeError = "";
     });
   }

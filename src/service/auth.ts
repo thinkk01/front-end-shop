@@ -3,15 +3,11 @@ import axios from "axios";
 import { CONFIG_API } from "@/configs/api";
 import { LoginParams } from "@/contexts/types";
 import instanceAxios from "@/helper/axios";
-import { TRegisterAuth } from "@/types/auth";
+import { TChangePassword, TRegisterAuth } from "@/types/auth";
 
 export const loginAuth = async ( data: LoginParams ) =>{
-    try {
-        const res = await instanceAxios.post(CONFIG_API.AUTH.INDEX, data);
-        return res.data;
-    } catch ( error ){
-        return error;
-    }
+    const res = await axios.post(CONFIG_API.AUTH.INDEX, data);
+    return res.data;
 };
 export const logoutAuth = async () => {
     try {
@@ -43,6 +39,14 @@ export const updateAuthMe = async (data: TRegisterAuth) => {
         const res = await instanceAxios.put(CONFIG_API.AUTH.AUTHME,data);
         return res.data;                        
     } catch ( error ) {
+        return error;
+    }
+};
+export const changePasswordAuth = async (data: TChangePassword) => {
+    try {
+        const res = await instanceAxios.patch(CONFIG_API.AUTH.CHANGEPASWORD,data);
+        return res.data;
+    } catch (error) {
         return error;
     }
 };

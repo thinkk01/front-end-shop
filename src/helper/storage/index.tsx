@@ -1,4 +1,4 @@
-import auth from "@/configs/auth";
+import auth, { TEMPORARY_TOKEN } from "@/configs/auth";
 
 export const setLocalUserData = (userData: string, accessToken:string, refreshToken:string) => {
     return {
@@ -35,4 +35,30 @@ return {
     refreshToken: "",
 };
 };
-
+export const setTemporaryToken = (accessToken:string) => {
+    return {
+        userData: window.localStorage.setItem(TEMPORARY_TOKEN,accessToken),
+    };
+};
+export const getTemporaryToken = () => {
+    if (typeof window !== "undefined") {
+        return {
+            temporaryToken: window.localStorage.getItem(TEMPORARY_TOKEN),
+        };
+    }
+    return {
+        temporaryToken: "",
+    };
+};
+export const removeTemporaryToken = () => {
+    if (typeof window !== "undefined") {
+    return {
+        temporaryToken: window.localStorage.removeItem(TEMPORARY_TOKEN),
+    };
+}
+    return {
+        userData: "",
+        accessToken: "",
+        refreshToken: "",
+    };
+};

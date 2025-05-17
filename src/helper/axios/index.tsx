@@ -7,7 +7,7 @@ import { BASE_URL, CONFIG_API } from "@/configs/api";
 import { UserDataType } from "@/contexts/types";
 import { useAuth } from "@/hooks/useAuth";
 
-import { getLocalUserData, removeLocalUserData, setLocalUserData } from "../storage";
+import { getLocalUserData, getTemporaryToken, removeLocalUserData, removeTemporaryToken, setLocalUserData } from "../storage";
 
 type TAxiosInterceptor = {
     children: React.ReactNode
@@ -23,6 +23,7 @@ const handleRedirectLogin = (router: NextRouter,setUser: (data:UserDataType | nu
     }
     setUser(null);
     removeLocalUserData();
+    removeTemporaryToken();
 };
 const instanceAxios = axios.create({ baseURL: BASE_URL });
 const AxiosInterceptor:FC<TAxiosInterceptor> = ({ children }) => {
@@ -30,10 +31,16 @@ const AxiosInterceptor:FC<TAxiosInterceptor> = ({ children }) => {
     const { setUser } = useAuth();
     instanceAxios.interceptors.request.use( async config => {
         const { accessToken, refreshToken } = getLocalUserData(); 
-        if (accessToken) {
-            const decodeAccessToken:any = jwtDecode(accessToken);
+        const { temporaryToken } = getTemporaryToken();
+        if (accessToken || temporaryToken) {    
+            let decodeAccessToken: any = {};
+            if (accessToken) {
+                decodeAccessToken = jwtDecode(accessToken);
+            } else if (temporaryToken) {
+                decodeAccessToken = jwtDecode(temporaryToken);
+            }
             if ( decodeAccessToken?.exp > Date.now() /1000 ){   
-                config.headers["Authorization"] = `Bearer ${accessToken}`;
+                config.headers["Authorization"] = `Bearer ${accessToken ? accessToken : temporaryToken}`;
             } else {
                 if (refreshToken) {
                     const decodeRefreshToken: any = jwtDecode(refreshToken);

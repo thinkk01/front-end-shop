@@ -1,30 +1,65 @@
 import React from "react";
-import { Avatar, Box, Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
+import { Avatar, Box, Button, IconButton, Menu, MenuItem, styled, Tooltip } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import { Badge } from "@mui/material";
+import { Stack } from "@mui/material";
+import { useRouter } from "next/router";
 
 import { DropdownUser } from "@/configs/layout";
 import { useAuth } from "@/hooks/useAuth";
+import { CONFIG_API } from "@/configs/api";
+import { ROUTE_CONFIG } from "@/configs/route";
 
 import IconifyIcon from "../Icon";
 
 type TProps = {
 
 }
-
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: "\"\"",
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}));
 const UserDropDown = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { t } = useTranslation(); 
   const open = Boolean(anchorEl);
+  const router = useRouter();
   const { user, logout } = useAuth();
 
-  console.log(user);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handlechagePassword = () => {
+    router.push(ROUTE_CONFIG.CHANGE_PASSWORD);
   };
   return (
     <Box>
@@ -36,20 +71,27 @@ const UserDropDown = () => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
       >
+          <StyledBadge overlap="circular"
+               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+               variant="dot"
+             >
         <Avatar sx={{ width: 32, height: 32 }} >
-          {user?.avatar ? (
+          {user?.avatar ? (       
             <Image src={user?.avatar || ""} alt="avatar" width={100} height={100} style={{ width:"auto", height:"auto", objectFit: "cover" }}/>
-          ): (
+    
+          ) : (
             <IconifyIcon icon="ph:user-thin" width="24" height="24" />
           )}
    
         </Avatar>
+          </StyledBadge>
       </IconButton>
       </Tooltip>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
+        onClose={handleClose}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
@@ -76,9 +118,19 @@ const UserDropDown = () => {
             <MenuItem
               onClick={() => {
                 handleClose();
+                handlechagePassword();
+              }}
+            >
+                <IconifyIcon icon="carbon:password" /> 
+              Change Password
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                handleClose();
                 logout();
               }}
             >
+                <IconifyIcon icon="material-symbols-light:logout" /> 
               Logout
             </MenuItem>
           </>

@@ -5,5 +5,6 @@ export const CONFIG_API = {
         AUTHME: `${BASE_URL}/auth/me`,
         LOGOUT: `${BASE_URL}/auth/logout`,
         REGISTER: `${BASE_URL}/auth/register`,
+        CHANGEPASWORD: `${BASE_URL}/auth/change-password`,
     }
 };

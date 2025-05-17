@@ -1,11 +1,12 @@
 import { createContext, useEffect, useState, ReactNode } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
+import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 import authConfig from "@/configs/auth";
 import { loginAuth, logoutAuth } from "@/service/auth";
 import { CONFIG_API } from "@/configs/api";
-import { removeLocalUserData, setLocalUserData } from "@/helper/storage";
+import { removeLocalUserData, setLocalUserData, setTemporaryToken } from "@/helper/storage";
 import instanceAxios from "@/helper/axios";
 
 import { AuthValuesType, LoginParams, ErrCallbackType, UserDataType } from "./types";
@@ -16,7 +17,7 @@ const defaultProvider: AuthValuesType = {
   setUser: () => null,
   setLoading: () => Boolean,
   login: () => Promise.resolve(),
-  logout: () => Promise.resolve()
+  logout: () => Promise.resolve(),
 };
 
 const AuthContext = createContext(defaultProvider);
@@ -32,6 +33,8 @@ const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading);
 
   const router = useRouter();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
@@ -62,13 +65,19 @@ const AuthProvider = ({ children }: Props) => {
   }, []);
 
   const handleLogin = (params: LoginParams, errorCallback?: ErrCallbackType) => {
-    setLoading(true);
     loginAuth({ email: params.email, password: params.password })
       .then(async response => {
-        setLoading(false);
-        params.rememberMe
-          ? setLocalUserData(JSON.stringify(response.data.userData),response.data.access_token,response.data.refresh_token)
-          : null;
+        if (params.rememberMe) {
+          setLocalUserData(
+            JSON.stringify(response.data.userData),
+            response.data.access_token,
+            response.data.refresh_token
+          );
+        } else {
+          setTemporaryToken(response.data.access_token);
+        }
+        toast.success(t("Login success"));
+        
         const returnUrl = router.query.returnUrl;
         setUser({ ...response.data.user });
         params.rememberMe ? window.localStorage.setItem("userData", JSON.stringify(response.data.user)) : null;
@@ -77,9 +86,7 @@ const AuthProvider = ({ children }: Props) => {
 
         router.replace(redirectURL as string);
       })
-
       .catch(err => {
-        setLoading(false);
         if (errorCallback) errorCallback(err);
       });
   };

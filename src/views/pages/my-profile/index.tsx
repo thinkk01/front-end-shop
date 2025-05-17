@@ -17,10 +17,11 @@ import IconifyIcon from "@/components/Icon";
 import WrapFileUpload from "@/components/wrap-file-upload";
 import { getAuthMe } from "@/service/auth";
 import { UserDataType } from "@/contexts/types";
-import { convertBase64, toFullName } from "@/utils";
+import { convertBase64, separationFullName, toFullName } from "@/utils";
 import { updateAuthMeAsync } from "@/stores/apps/auth/actions";
 import FallbackSpinner from "@/components/fall-back";
 import { resetInitialState } from "@/stores/apps/auth";
+import Spinner from "@/components/spinner";
 
 type TProps = {}
 type TPropsDefault = {
@@ -110,7 +111,7 @@ const MyProfilePage: NextPage<TProps> = () => {
   };
     useEffect(() => {
         fetchGetAuthMe();
-    }, []);
+    }, [i18n.language]);
     useEffect(() => {
         if (messageUpdateMe) {
         if (isErrorUpdateMe){
@@ -123,9 +124,12 @@ const MyProfilePage: NextPage<TProps> = () => {
         }
     },[isErrorUpdateMe, isSuccessUpdateMe, messageUpdateMe]);
 const onSubmit = handleSubmit((data:any)=> {
+    const { firstName, lastName, middeName } = separationFullName(data.fullName, i18n.language);
     dispatch(updateAuthMeAsync({
         email: data.email,
-        firstName: data.fullName,
+        firstName: firstName,
+        lastName: lastName,
+        middleName: middeName,
         role: roleId,
         phoneNumber: data.phoneNumber,
         avatar,
@@ -139,7 +143,7 @@ const handleUploadFunction = async (data: File) => {
 };
   return (
     <>
-    {loading || isLoading && <FallbackSpinner />}
+    {loading || isLoading && <Spinner />}
     <form onSubmit={onSubmit} autoComplete="off">   
         <Grid container spacing={2} >
             <Grid container size={{ md:7, xs:6 }} spacing={2}>
