@@ -7,7 +7,7 @@ import { BASE_URL, CONFIG_API } from "@/configs/api";
 import { UserDataType } from "@/contexts/types";
 import { useAuth } from "@/hooks/useAuth";
 
-import { getLocalUserData, getTemporaryToken, removeLocalUserData, removeTemporaryToken, setLocalUserData } from "../storage";
+import { getLocalUserData, getTemporaryToken, removeLocalUserData, removeTemporaryToken, setLocalUserData, setTemporaryToken } from "../storage";
 
 type TAxiosInterceptor = {
     children: React.ReactNode
@@ -28,7 +28,7 @@ const handleRedirectLogin = (router: NextRouter,setUser: (data:UserDataType | nu
 const instanceAxios = axios.create({ baseURL: BASE_URL });
 const AxiosInterceptor:FC<TAxiosInterceptor> = ({ children }) => {
     const router = useRouter();
-    const { setUser } = useAuth();
+    const { setUser, user } = useAuth();
     instanceAxios.interceptors.request.use( async config => {
         const { accessToken, refreshToken } = getLocalUserData(); 
         const { temporaryToken } = getTemporaryToken();
@@ -53,6 +53,12 @@ const AxiosInterceptor:FC<TAxiosInterceptor> = ({ children }) => {
                             const newAccessToken = res?.data?.data?.access_token;
                             if (newAccessToken) {
                                 config.headers["Authorization"] = `Bearer ${newAccessToken}`; 
+                                if (accessToken) {
+                                    setLocalUserData(JSON.stringify(user), newAccessToken, refreshToken);
+                                } else {
+                                    setLocalUserData(JSON.stringify(user), "", refreshToken);
+                                    setTemporaryToken(newAccessToken);
+                                }
                             } else {
                                 handleRedirectLogin(router,setUser);
                             }

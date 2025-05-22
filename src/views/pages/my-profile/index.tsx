@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import { Controller, useForm } from "react-hook-form";
-import { Avatar, Box, Button, Paper, styled, FormLabel, useTheme, IconButton } from "@mui/material";
+import { Avatar, Box, Button, Paper, styled, FormLabel, useTheme, IconButton, FormHelperText } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Grid from "@mui/material/Grid";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 
+import CustomSelect from "@/components/custom-select";
 import { AppDispatch, RootState } from "@/stores";
 import { EMAIL_REG } from "@/configs/regex";
 import CustomTextField from "@/components/text-field";
@@ -212,18 +213,13 @@ const handleUploadFunction = async (data: File) => {
                             name="role"
                             control={control}
                             render={({ field: { onChange, onBlur, value } }) => (
-                            <CustomTextField
-                                id="role"
-                                type="text"
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                value={value}
-                                required
-                                disabled
-                                fullWidth
-                                error={Boolean(errors?.role)}
-                                helperText={errors?.role?.message}
-                            />
+                                <CustomSelect fullWidth options={[]}  
+                                                onChange={onChange} 
+                                                onBlur={onBlur} 
+                                                error={Boolean(errors?.role)}
+                                                placeholder={t("enter_your_roles")}
+                                                value={value}
+                                                />
                             )}
                         />
                         </Box>
@@ -295,15 +291,13 @@ const handleUploadFunction = async (data: File) => {
                             name="city"
                             control={control}
                             render={({ field: { onChange, onBlur, value } }) => (
-                            <CustomTextField
-                                id="city"
-                                placeholder={t("Type_your_city")}
-                                type="text"
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                value={value}
-                                fullWidth
-                            />
+
+                                <CustomSelect fullWidth options={[]} 
+                                            onChange={onChange} 
+                                            onBlur={onBlur} 
+                                            error={Boolean(errors?.city)}
+                                            value={value}
+                                            placeholder={t("Type_your_city")} />
                             )}
                         />
                         </Box>
@@ -340,7 +334,12 @@ const handleUploadFunction = async (data: File) => {
                             helperText={errors?.email?.message}
                         />
                         )}
-                    />
+                        />
+                        { !errors?.email?.message && (
+                            <FormHelperText
+                                sx={{ color: !errors?.role ? theme?.palette?.error.main : `rgba(${theme.palette.customColors.main}, 0.42)` }}
+                            >{errors?.email?.message}</FormHelperText>
+                        )}
                     </Box>
                     </Grid>
             </Grid>

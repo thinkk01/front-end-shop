@@ -19,5 +19,7 @@
     "Current Password": "Mật khẩu hiện tại",
     "New Password" : "Mật khẩu mới",
     "Confirm New Password": "Nhập lại mật khẩu mới",
-    "Change Password": "Thay đổi mật khẩu"
+    "Change Password": "Thay đổi mật khẩu",
+    "Type_your_city":"Chọn thành phố của bạn",
+    "enter_your_roles": "Nhập vai trò của bạn"
 }
