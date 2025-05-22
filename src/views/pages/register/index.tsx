@@ -152,7 +152,7 @@ const RegisterPage: NextPage<TProps> = () => {
         justifyContent: "center", flex: 1, 
         margin: "30px",
         borderRadius: "20px", 
-        backgroundColor: theme.palette.customColors.bodyBg,
+        backgroundColor: theme.palette.customColors?.bodyBg,
         height: "100%" }}>
         <Image src={theme.palette.mode === "light" ? RegisterLight : RegisterDark} alt="register image" style={{ height: "100%", width: "100%" }}></Image>
         </Box>
