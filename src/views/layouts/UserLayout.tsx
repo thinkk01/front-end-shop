@@ -11,8 +11,8 @@ import VerticalLayout from "./VerticalLayout";
 
 const defaultTheme = createTheme();
 type TProps = {
-  children: React.ReactNode,
-}
+  children: React.ReactNode;
+};
 const UserLayout: NextPage<TProps> = ({ children }) => {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
@@ -23,15 +23,13 @@ const UserLayout: NextPage<TProps> = ({ children }) => {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <VerticalLayout toggleDrawer={toggleDrawer} open={open}/>
-        <HorizontalLayout toggleDrawer={toggleDrawer} open={open}/>
+        <VerticalLayout toggleDrawer={toggleDrawer} open={open} />
+        <HorizontalLayout toggleDrawer={toggleDrawer} open={open} />
         <Box
           component="main"
           sx={{
             backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
+              theme.palette.mode === "light" ? theme.palette.grey[100] : theme.palette.grey[900],
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
@@ -39,7 +37,7 @@ const UserLayout: NextPage<TProps> = ({ children }) => {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-           {children}
+            {children}
           </Container>
         </Box>
       </Box>

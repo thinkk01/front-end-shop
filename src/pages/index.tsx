@@ -6,6 +6,7 @@ import React, { ReactNode } from "react";
 
 import { useSettings } from "@/hooks/useSettings";
 import LayoutNotApp from "@/views/layouts/LayoutNotApp";
+import CustomDataGrid from "@/components/custom-data-grid";
 
 export default function Home() {
   const theme = useTheme();

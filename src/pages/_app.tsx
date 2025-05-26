@@ -112,28 +112,28 @@ export default function App(props: ExtendedAppProps) {
 
       <AuthProvider>
         <AxiosInterceptor>
-        <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-          <SettingsConsumer>
-            {({ settings }) => {
-              return (
-                <ThemeComponent settings={settings}>
-                  <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                    <AclGuard
-                      aclAbilities={aclAbilities}
-                      guestGuard={guestGuard}
-                      authGuard={authGuard}
-                    >
-                      {getLayout(<Component {...pageProps} />)}
-                    </AclGuard>
-                  </Guard>
-                  <ReactHotToast>
-                    <Toaster position={settings.toastPosition} toastOptions={toastOptions} />
-                  </ReactHotToast>
-                </ThemeComponent>
-              );
-            }}
-          </SettingsConsumer>
-        </SettingsProvider>
+          <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+            <SettingsConsumer>
+              {({ settings }) => {
+                return (
+                  <ThemeComponent settings={settings}>
+                    <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                      <AclGuard
+                        aclAbilities={aclAbilities}
+                        guestGuard={guestGuard}
+                        authGuard={authGuard}
+                      >
+                        {getLayout(<Component {...pageProps} />)}
+                      </AclGuard>
+                    </Guard>
+                    <ReactHotToast>
+                      <Toaster position={settings.toastPosition} toastOptions={toastOptions} />
+                    </ReactHotToast>
+                  </ThemeComponent>
+                );
+              }}
+            </SettingsConsumer>
+          </SettingsProvider>
         </AxiosInterceptor>
       </AuthProvider>
     </Provider>

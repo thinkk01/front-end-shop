@@ -4,15 +4,11 @@ import { ReactNode } from "react";
 import RegisterPage from "@/views/pages/register";
 import BlankLayout from "@/views/layouts/BlankLayout";
 
-type TProps = {
-
-}
+type TProps = {};
 const Register: NextPage<TProps> = () => {
-  return (
-    <RegisterPage />
-  );
+  return <RegisterPage />;
 };
 export default Register;
 
-Register.getLayout = (page: ReactNode) => <BlankLayout>{ page }</BlankLayout>;
+Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>;
 Register.guestGuard = true;

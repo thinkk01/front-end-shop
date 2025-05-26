@@ -12,9 +12,6 @@ const Card = (skin: Skin) => {
             marginTop: theme.spacing(-1),
             marginRight: theme.spacing(-3)
           },
-          "& .MuiTableContainer-root, & .MuiDataGrid-root, & .MuiDataGrid-columnHeaders": {
-            borderRadius: 0
-          }
         })
       },
       defaultProps: {
