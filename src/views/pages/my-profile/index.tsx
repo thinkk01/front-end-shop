@@ -29,9 +29,9 @@ import WrapFileUpload from "@/components/wrap-file-upload";
 import { getAuthMe } from "@/service/auth";
 import { UserDataType } from "@/contexts/types";
 import { convertBase64, separationFullName, toFullName } from "@/utils";
-import { updateAuthMeAsync } from "@/stores/apps/auth/actions";
+import { updateAuthMeAsync } from "@/stores/auth/actions";
 import FallbackSpinner from "@/components/fall-back";
-import { resetInitialState } from "@/stores/apps/auth";
+import { resetInitialState } from "@/stores/auth";
 import Spinner from "@/components/spinner";
 
 type TProps = {};

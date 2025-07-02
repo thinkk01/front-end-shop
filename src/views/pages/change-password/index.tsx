@@ -29,9 +29,9 @@ import RegisterDark from "@/../../public/images/v2-login-light.png";
 import { PASSWORD_REG } from "@/configs/regex";
 import { AppDispatch, RootState } from "@/stores";
 import FallbackSpinner from "@/components/fall-back";
-import { resetInitialState } from "@/stores/apps/auth";
+import { resetInitialState } from "@/stores/auth";
 import { ROUTE_CONFIG } from "@/configs/route";
-import { changePasswordMeAsync } from "@/stores/apps/auth/actions";
+import { changePasswordMeAsync } from "@/stores/auth/actions";
 import { useAuth } from "@/hooks/useAuth";
 type TProps = {};
 type TPropsDefault = {

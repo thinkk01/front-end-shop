@@ -20,7 +20,13 @@
     "New Password" : "Mật khẩu mới",
     "Confirm New Password": "Nhập lại mật khẩu mới",
     "Change Password": "Thay đổi mật khẩu",
-    "Type_your_city":"Chọn thành phố của bạn",
     "enter_your_roles": "Nhập vai trò của bạn",
-    "Manage System": "Quản lý hệ thống"
+    "Manage System": "Quản lý hệ thống",
+    "Name": "Tên",
+    "Action": "Hành động",
+    "Total row": "Số dòng hiển thị",
+    "Showing": "Đang hiển thị",
+    "Up": "Trên",
+    "Edit": "Chỉnh sửa",
+    "Delete": "Xóa"
 }

@@ -25,8 +25,10 @@ const CustomModal = (props: TCustomModal) => {
             alignItems: "center",
             justifyContent: "center",
           }}
-        ></Box>
+        >
+
         <Box sx={{ margin: "40px 0" }}>{children}</Box>
+        </Box>
       </Box>
     </StyleModal>
   );
