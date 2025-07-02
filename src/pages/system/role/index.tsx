@@ -3,13 +3,10 @@ import { ReactNode } from "react";
 
 import RegisterPage from "@/views/pages/register";
 import BlankLayout from "@/views/layouts/BlankLayout";
+import RoleListPage from "@/views/pages/system/role/RoleList";
 
-type TProps = {
-
-}
+type TProps = {};
 const Index: NextPage<TProps> = () => {
-  return (
-    <h1>System Role</h1>
-  );
+  return <RoleListPage />;
 };
 export default Index;

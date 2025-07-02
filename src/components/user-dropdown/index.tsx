@@ -14,9 +14,7 @@ import { ROUTE_CONFIG } from "@/configs/route";
 
 import IconifyIcon from "../Icon";
 
-type TProps = {
-
-}
+type TProps = {};
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: "#44b700",
@@ -47,7 +45,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 const UserDropDown = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const open = Boolean(anchorEl);
   const router = useRouter();
   const { user, logout } = useAuth();
@@ -64,28 +62,33 @@ const UserDropDown = () => {
   return (
     <Box>
       <Tooltip title={t("Account")}>
-      <IconButton
-        id="basic-button"
-        onClick={handleClick}
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-      >
-          <StyledBadge overlap="circular"
-               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-               variant="dot"
-             >
-        <Avatar sx={{ width: 32, height: 32 }} >
-          {user?.avatar ? (       
-            <Image src={user?.avatar || ""} alt="avatar" width={100} height={100} style={{ width:"auto", height:"auto", objectFit: "cover" }}/>
-    
-          ) : (
-            <IconifyIcon icon="ph:user-thin" width="24" height="24" />
-          )}
-   
-        </Avatar>
+        <IconButton
+          id="basic-button"
+          onClick={handleClick}
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+        >
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            variant="dot"
+          >
+            <Avatar sx={{ width: 32, height: 32 }}>
+              {user?.avatar ? (
+                <Image
+                  src={user?.avatar || ""}
+                  alt="avatar"
+                  width={100}
+                  height={100}
+                  style={{ width: "auto", height: "auto", objectFit: "cover" }}
+                />
+              ) : (
+                <IconifyIcon icon="ph:user-thin" />
+              )}
+            </Avatar>
           </StyledBadge>
-      </IconButton>
+        </IconButton>
       </Tooltip>
       <Menu
         id="basic-menu"
@@ -96,7 +99,7 @@ const UserDropDown = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-       {!user ? (
+        {!user ? (
           <>
             <MenuItem disabled>Please login my page</MenuItem>
             <MenuItem onClick={handleClose}>
@@ -110,10 +113,12 @@ const UserDropDown = () => {
           <>
             <MenuItem disabled>{user.email}</MenuItem>
             <MenuItem onClick={handleClose}>
-              <Link href="/my-profile">{t("my_profile")}</Link>
+              <IconifyIcon icon="tdesign:system-location" /> 
+              <Link href="/dashboard">{t("Manage System")}</Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <Link href="addAnotherAccount">Add Another Account</Link>
+              <IconifyIcon icon="pajamas:profile" width={24} height={24} /> {" "}
+              <Link href="/my-profile">{t("my_profile")}</Link>
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -121,8 +126,8 @@ const UserDropDown = () => {
                 handlechagePassword();
               }}
             >
-                <IconifyIcon icon="carbon:password" /> 
-              Change Password
+              <IconifyIcon icon="carbon:password" />
+              {t("Change Password")}
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -130,13 +135,13 @@ const UserDropDown = () => {
                 logout();
               }}
             >
-                <IconifyIcon icon="material-symbols-light:logout" /> 
+              <IconifyIcon icon="material-symbols-light:logout" />
               Logout
             </MenuItem>
           </>
         )}
       </Menu>
-  </Box>
+    </Box>
   );
 };
 

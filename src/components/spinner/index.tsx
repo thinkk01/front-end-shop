@@ -5,14 +5,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Modal } from "@mui/material";
 import { ModalProps } from "@mui/material";
 const CustomModal = styled(Modal)<ModalProps>(({ theme }) => ({
-  "&.Mui-modal-root" : {
+  "&.Mui-modal-root": {
     width: "100%",
     height: "100%",
     zIndex: 2000,
     ".MuiModal-backdrop": {
-      backgroundColor: `rgba(${theme.palette.customColors.main},0.7)`
-    }
-  }
+      backgroundColor: `rgba(${theme.palette.customColors.main},0.7)`,
+    },
+  },
 }));
 const Spinner = ({ sx }: { sx?: BoxProps["sx"] }) => {
   // ** Hook
@@ -27,7 +27,7 @@ const Spinner = ({ sx }: { sx?: BoxProps["sx"] }) => {
           alignItems: "center",
           flexDirection: "column",
           justifyContent: "center",
-          ...sx
+          ...sx,
         }}
       >
         <CircularProgress disableShrink sx={{ mt: 6 }} />

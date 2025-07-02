@@ -4,12 +4,12 @@ import { ReactNode } from "react";
 import RegisterPage from "@/views/pages/register";
 import BlankLayout from "@/views/layouts/BlankLayout";
 
-type TProps = {
-
-}
+type TProps = {};
 const ManageSystem: NextPage<TProps> = () => {
   return (
-    <RegisterPage />
+    <>
+      <h1>Dash board</h1>
+    </>
   );
 };
 export default ManageSystem;
